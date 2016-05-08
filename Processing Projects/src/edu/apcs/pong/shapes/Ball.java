@@ -1,4 +1,4 @@
-package pong.shapes;
+package edu.apcs.pong.shapes;
 
 import processing.core.PVector;
 

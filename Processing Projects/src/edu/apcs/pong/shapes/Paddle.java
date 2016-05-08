@@ -1,7 +1,7 @@
-package pong.shapes;
+package edu.apcs.pong.shapes;
 
+import edu.apcs.pong.config.Config;
 import processing.core.PVector;
-import pong.config.Config;
 
 public class Paddle extends Shape{
 		

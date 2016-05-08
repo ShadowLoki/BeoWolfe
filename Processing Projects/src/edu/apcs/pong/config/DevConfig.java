@@ -1,4 +1,4 @@
-package pong.config;
+package edu.apcs.pong.config;
 
 public class DevConfig extends Config{
 	private static final int PADDLE_WIDTH = 25;

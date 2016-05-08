@@ -1,4 +1,4 @@
-package pong.config;
+package edu.apcs.pong.config;
 
 public abstract class Config {
 	

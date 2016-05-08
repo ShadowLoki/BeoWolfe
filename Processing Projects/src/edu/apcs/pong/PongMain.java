@@ -1,10 +1,9 @@
-package pong;
+package edu.apcs.pong;
 
 import processing.core.PApplet;
-
-import pong.shapes.Paddle;
-import pong.shapes.Ball;
-import pong.config.*;
+import edu.apcs.pong.config.*;
+import edu.apcs.pong.shapes.Ball;
+import edu.apcs.pong.shapes.Paddle;
 
 public class PongMain extends PApplet{
 	

@@ -1,7 +1,7 @@
 /*
  * Temporary file to make sure that processing works with java.
  */
-package sketches;
+package edu.apcs.etc.sketches;
 
 import processing.core.PApplet;
 
@@ -12,7 +12,7 @@ public class HelloWorld extends PApplet{
 	int speed = 3;
 	
 	public static void main(String args[]) {
-	    PApplet.main(new String[] { "--present", "sketches.HelloWorld" });
+	    PApplet.main(new String[] { "--present", "edu.apcs.etc.sketches.HelloWorld" });
 	  }
 	
 	public void settings() {

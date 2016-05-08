@@ -1,10 +1,10 @@
-package sketches;
+package edu.apcs.etc.sketches;
 
 import processing.core.PApplet;
 
 public class BouncyBall extends PApplet{
 	public static void main(String args[]) {
-	    PApplet.main(new String[] { "--present", "sketches.BouncyBall" });
+	    PApplet.main(new String[] { "--present", "edu.apcs.etc.sketches.BouncyBall" });
 	  }
 	int ballSize = 40;
 	
