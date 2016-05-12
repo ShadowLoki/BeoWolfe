@@ -6,7 +6,7 @@ public class Orbits extends PApplet{
 	public static void main(String[] args) {
 		PApplet.main(new String[] {"--present", "edu.apcs.etc.sketches.Orbits"});
 	}
-	
+		
 	private float posX, posY;
 	private float radiusX, radiusY;
 	private float theta;
@@ -20,20 +20,24 @@ public class Orbits extends PApplet{
 		size(850,850);
 	}
 	
-	public void setup() {
+	public void setup() {	
+		
 		posX = 0;
-		posY = 0;
+		posY = radiusY * sin((float).02);
 		
 		radiusX = 50;
 		radiusY = 150;
 		
-		theta = 0;
+		delta = 0;
+		
+		theta = (float) 0.02;
 	}
 	
 	public void draw() {
 		background(0);
-		delta = calculateDelta(posY);
-		theta -= delta;
+		
+		delta = getDelta(posY);
+		theta += 0.02f;
 		
 		posX = radiusX * cos(theta);
 		posY = radiusY * sin(theta);
@@ -60,4 +64,9 @@ public class Orbits extends PApplet{
 	public float calculateDelta(float posY){
 		return (float)(-(1/1000000)*Math.pow(posY, 2)+.02);
 	}
+	
+	public float getDelta(float foo) {
+		return (float)(-(Math.pow(foo, 2)/750000)+(99/100));
+	}
+	
 }

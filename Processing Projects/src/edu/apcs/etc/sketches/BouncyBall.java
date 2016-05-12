@@ -16,7 +16,7 @@ public class BouncyBall extends PApplet{
 	int xDir = 1, yDir = 1;
 		
 	public void settings() {
-		  size(1024, 768);
+		  size(1024, 768, P3D);
 		}
 	
 	public void setup(){

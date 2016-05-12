@@ -1,9 +1,11 @@
 package edu.apcs.pong;
 
 import processing.core.PApplet;
+
+import javax.swing.SwingUtilities;
+
+import edu.apcs.control.ControlWindow;
 import edu.apcs.pong.config.*;
-import edu.apcs.pong.shapes.Ball;
-import edu.apcs.pong.shapes.Paddle;
 
 public class PongMain extends PApplet{
 	
@@ -11,11 +13,17 @@ public class PongMain extends PApplet{
 //	private Paddle human = new Paddle(Config.get().getPADDLE_WIDTH()/2 ,Config.get().getDEF_PAD_Y());
 		
 	public static void main(String args[]) {
-	    PApplet.main(new String[] { "--present", "pong.PongMain" });
+	    PApplet.main(new String[] { "--present", "edu.apcs.pong.PongMain" });
 	}
 	
 	public void settings(){
-		size(Config.get().getGAME_WIDTH(), Config.get().getGAME_HEIGHT());
+		size(Config.get().getGAME_WIDTH(), Config.get().getGAME_HEIGHT(), P2D);
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				new ControlWindow().setVisible(true);
+			}
+		});
 	}
 	
 	public void setup(){
@@ -26,30 +34,10 @@ public class PongMain extends PApplet{
 	}
 	 
 	public void draw(){
-		background(0);
-		fill(255);
-//		drawShape(human);
-	}
-	
-	/**
-	 * TODO FIX this
-	 */
-//	public void keyPressed(){
-//		if(key == 'w')
-//			human.move(human.getPos().x, human.getPos().y - Config.get().getIncrement());
-//		else if(key == 's')
-//			human.move(human.getPos().x, human.getPos().y + Config.get().getIncrement());
-//	}
-	
-	public void drawShape(Paddle paddle) {
-		rect(paddle.getPos().x, paddle.getPos().y, Config.get().getPADDLE_WIDTH(), Config.get().getPADDLE_HEIGHT());
-	}
-	
-	public void drawShape(Ball ball) {
-		ellipse(ball.getPos().x, ball.getPos().y, ball.radius(), ball.radius());
-	}
-	
-	public void drawField() {
-		
+		background(20);
+		fill(50);
+//		drawShape(human);;
+		ellipse(width/2, height/2, 200, 200);
+		rect(width/2 - 100, height/2 - 100, 100,100);
 	}
 }

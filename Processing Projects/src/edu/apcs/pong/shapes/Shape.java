@@ -1,15 +1,19 @@
 package edu.apcs.pong.shapes;
 
+import processing.core.PApplet;
 import processing.core.PVector;
 
-public class Shape {
+public abstract class Shape {
 	
-	String name;
-	PVector pos;
+	private String name;
+	private PVector pos;
 	
-	public Shape(String name, PVector pos) {
+	private PApplet p;
+	
+	public Shape(PApplet p, String name, PVector pos) {
 		this.name = name;
 		this.pos = pos;
+		this.p = p;
 	}
 	
 	public PVector getPos() {
@@ -19,6 +23,8 @@ public class Shape {
 	public void move(float x, float y){
 		this.pos.set(x, y);
 	}
+	
+	public abstract void draw();
 	
 	public String toString() {
 		return name + " " + "xPos= " + pos.x + " yPos= " + pos.y;

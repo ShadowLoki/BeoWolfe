@@ -16,7 +16,7 @@ public class HelloWorld extends PApplet{
 	  }
 	
 	public void settings() {
-		  size(650, 650);
+		  size(650, 650, P3D);
 		}
 	
 	public void setup(){
