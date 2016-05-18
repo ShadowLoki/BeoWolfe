@@ -1,11 +1,15 @@
-package edu.apcs.doom;
+package edu.apcs.wolf;
+
+import edu.apcs.wolf.config.KeyboardKey;
+import edu.apcs.wolf.config.Config;
 
 import processing.core.PApplet;
 
-public class Doom extends PApplet{
+public class BeoWolfe extends PApplet{
 	public static void main(String[] args) {
-		PApplet.main(new String[] {"--present", "edu.apcs.doom.Doom"});
+		PApplet.main(new String[] {"--present", "edu.apcs.wolf.BeoWolfe"});
 	}
+	
 	
 	public void settings() {
 		size(400, 400, P2D);
