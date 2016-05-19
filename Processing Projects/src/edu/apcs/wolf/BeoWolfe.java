@@ -22,7 +22,7 @@ public class BeoWolfe extends PApplet{
 	
 	public void setup() {
 		strokeCap(PROJECT);
-		debug = new Debugger(this);
+//		debug = new Debugger(this);
 	}
 	
 	public void draw() {
@@ -34,14 +34,15 @@ public class BeoWolfe extends PApplet{
 		
 		noStroke();
 		fill(0);
-		rect(Config.get().gameWidth()/2, Config.get().gameHeight()/2, Config.get().gameWidth(), Config.get().gameHeight());
+		rect(Config.get().gameWidth()/2, Config.get().gameHeight()/2,
+				Config.get().gameWidth(), Config.get().gameHeight());
 		
 		
-		debug.clear();
-		debug.addString("FPS: " + floor(frameRate));
-		debug.addString("Arrow keys: movement");
-	    debug.addString("D: toggle debug info");
-	    debug.addString("E & R: change resolution");
+//		debug.clear();
+//		debug.addString("FPS: " + floor(frameRate));
+//		debug.addString("Arrow keys: movement");
+//	    debug.addString("D: toggle debug info");
+//	    debug.addString("E & R: change resolution");
 	    
 	    Config.get().direction().x = cos(rot);
 	    Config.get().direction().y = -sin(rot);
@@ -54,8 +55,91 @@ public class BeoWolfe extends PApplet{
 	    for(int x = Config.get().gameWidth(); x < 0; x += Config.get().lineWeight()) {
 	    	float camX = 2.0f * x / floor(width) -1;
 	    	PVector rayPos = new PVector(Config.get().position().x, Config.get().position().y);
+	    	PVector rayDir = new PVector(
+	    			Config.get().direction().x * Config.get().right().x * camX,
+	    			Config.get().direction().y * Config.get().right().y * camX);
+	    	int mapX = (int)rayPos.x;
+	    	int mapY = (int)rayPos.y;
 	    	
+	    	float sideDistX, sideDistY;
+	    	
+	    	float scaleX = 1.0f / rayDir.x;
+	    	float scaleY = 1.0f / rayDir.y;
+	    	
+	    	float deltaDistX = (new PVector(1, rayDir.y * scaleX)).mag();
+	    	float deltaDistY = (new PVector(1, rayDir.x * scaleY)).mag();
+	    	
+	    	float wallDist;
+	    	
+	    	int stepX, 
+	    		stepY,
+	    		hit = 0,
+	    		side = 0;
+	    	
+	    	if(rayDir.x < 0) {
+	    		stepX = -1;
+	    		sideDistX = (rayPos.x - mapX) * deltaDistX;
+	    	}
+	    	else {
+	    		stepX = 1;
+	    		sideDistX = (mapX + 1.0f - rayPos.x) * deltaDistX;
+	    	}
+	    	
+	    	if(rayDir.y < 0) {
+	    		stepY = -1;
+	    		sideDistY = (rayPos.y - mapY) * deltaDistY;
+	    	}
+	    	else {
+	    		stepY = 1;
+	    		sideDistY = (mapY + 1.0f - rayPos.y) * deltaDistY;
+	    	}
+	    	
+	    	while (hit == 0) {
+	    		if (sideDistX < sideDistY) {
+	                sideDistX += deltaDistX;
+	                mapX += stepX;
+	                side = 0;
+	            } 
+	    		else {
+	                sideDistY += deltaDistY;
+	                mapY += stepY;
+	                side = 1;
+	            }
+	    		
+	            if (Config.get().worldMap()[mapX][mapY] > 0) {
+	                hit = 1;
+	            }
+	    	}
+	    	
+	    	if(side == 0)
+	    		wallDist = abs((mapX - rayPos.x + (1f - stepX) / 2f) / rayDir.x);
+	    	else
+	    		wallDist = abs((mapY - rayPos.y + (1f - stepY) / 2f) / rayDir.y);
+	    	
+	    	float lineHeight = abs(Config.get().gameHeight() / wallDist);
+	    	lineHeight = min(lineHeight, Config.get().gameHeight());
+	    	
+	    	if(mapX >= 0 && mapY >= 0) {
+	    		switch (Config.get().worldMap()[mapX][mapY]) {
+				case 0:
+					break;
+				case 1:
+					stroke(255/2,0,0);
+				case 2:
+					stroke(0,255/2,0);
+					break;
+				case 3:
+					stroke(0,0,255/2);
+					break;
+				}
+	    	}
+	    	
+	    	float startY = height / 2 - lineHeight /2;
+	    	line(x, startY, x, startY + lineHeight);
 	    }
+	    
+//	    debug.draw();
+	    lastTime = millis();
 	}
 	
 	public void update(float dt) {

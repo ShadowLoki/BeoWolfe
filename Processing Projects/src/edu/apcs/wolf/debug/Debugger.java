@@ -39,7 +39,7 @@ public class Debugger {
 		if(isOn) {
 			y = 20;
 			p.fill(255);
-			for (int i = 0; i < strings.size(); y += fontSize) {
+			for (int i = 0; i < strings.size(); i++, y += fontSize) {
 				p.textFont(font);
 				p.text((String)(strings.get(i)), 0, y);
 			}
