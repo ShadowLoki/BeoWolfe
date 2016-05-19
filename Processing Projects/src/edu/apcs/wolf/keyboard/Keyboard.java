@@ -1,13 +1,12 @@
-package edu.apcs.wolf.config;
+package edu.apcs.wolf.keyboard;
 
 public class Keyboard {
 	private static final int NUM_KEYS = 128;
+	
 	private static boolean[] lockableKeys = new boolean[NUM_KEYS];
-
-	// Use char since we only need to store 2 states (0, 1)
+	
 	private static char[] lockedKeyPresses = new char[NUM_KEYS];
-
-	// The key states, true if key is down, false if key is up.
+	
 	private static boolean[] keys = new boolean[NUM_KEYS];
 	
 	public static void lockKeys(int[] keys){

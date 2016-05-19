@@ -1,4 +1,4 @@
-package edu.apcs.wolf.config;
+package edu.apcs.wolf.keyboard;
 
 public class KeyboardKey {
 	private static KeyboardKey instance;
