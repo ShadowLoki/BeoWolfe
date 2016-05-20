@@ -51,8 +51,8 @@ public class Config {
 	};
 	
 	//Contants
-	private final int GAME_WIDTH 	= 400;
-	private final int GAME_HEIGHT 	= 400;
+	private final int GAME_WIDTH 	= 640;
+	private final int GAME_HEIGHT 	= 480;
 	
 	private final float WALK_SPEED = 0.005f;
 	private final float TURN_SPEED = 0.025f;
@@ -96,16 +96,32 @@ public class Config {
 		return TURN_SPEED;
 	}
 
+	public float fov() {
+		return FOV;
+	}
+	
 	public PVector position() {
 		return _position;
+	}
+	
+	public void setPosition(float x, float y) {
+		_position.set(x, y);
 	}
 	
 	public PVector direction() {
 		return _direction;
 	}
 	
+	public void setDirection(float x, float y) {
+		_direction.set(x, y);
+	}
+	
 	public PVector right() {
 		return _right;
+	}
+	
+	public void setRight(float x, float y) {
+		_right.set(x, y);
 	}
 	
 	public int lineWeight() {
@@ -113,18 +129,13 @@ public class Config {
 	}
 	
 	public void incrementLineWeight(int weight) {
-		if(weight < 0)
-			_line_weight -= weight;
-		else
-			_line_weight += weight;
+		_line_weight += weight;
 	}
 	
 	public void setLineWeight(int weight) {
 		_line_weight = weight;
 	}
 
-	public float fov() {
-		return FOV;
-	}
+	
 
 }

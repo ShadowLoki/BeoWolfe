@@ -2,7 +2,7 @@ package edu.apcs.wolf.keyboard;
 
 public class KeyboardKey {
 	private static KeyboardKey instance;
-	public static KeyboardKey is() {
+	public static KeyboardKey get() {
 		if(instance == null)
 			instance = new KeyboardKey();
 		return instance;

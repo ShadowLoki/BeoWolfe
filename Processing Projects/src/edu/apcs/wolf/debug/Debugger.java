@@ -7,41 +7,42 @@ import processing.core.PFont;
 
 public class Debugger {
 	
-	private PApplet p;
-	private ArrayList<String> strings;
-	private PFont font;
-	private int fontSize;
-	private boolean isOn;
+	private PApplet _p;
+	private ArrayList<String> _data;
+	private PFont _font;
+	private int _fontSize;
+	private boolean _isOn;
 	
 	private int y;
 	
 	public Debugger(PApplet p) {
-		this.p = p;
-		isOn = true;
-		fontSize = 15;
-		font = p.createFont("Source Code Pro", fontSize);
+		this._p = p;
+		_data = new ArrayList<String>();
+		_isOn = true;
+		_fontSize = 12;
+		_font = p.createFont("Source Code Pro", _fontSize);
 	}
 	
 	public void addString(String s) {
-		if(isOn)
-			strings.add(s);
+		if(_isOn)
+			_data.add(s);
 	}
 	
-	public void clear() {
-		strings.clear();
+	public void clearData() {
+		_data.clear();
 	}
 	
 	public void toggle() {
-		isOn = !isOn;
+		_isOn = !_isOn;
 	}
 	
 	public void draw() {
-		if(isOn) {
+		if(_isOn) {
 			y = 20;
-			p.fill(255);
-			for (int i = 0; i < strings.size(); i++, y += fontSize) {
-				p.textFont(font);
-				p.text((String)(strings.get(i)), 0, y);
+			_p.fill(255);
+			for (int i = 0; i < _data.size(); i++, y += _fontSize) {
+				_p.textFont(_font);
+				_p.text((String)(_data.get(i)), 0, y);
 			}
 		}
 	}
