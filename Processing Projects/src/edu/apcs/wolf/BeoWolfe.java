@@ -16,7 +16,7 @@ public class BeoWolfe extends PApplet{
 	float lastTime;
 	float rot = 0.0f;
 	Debugger debug;
-		
+	float camX;
 	public void settings() {
 		size(Config.get().gameWidth(), Config.get().gameHeight(), P2D);
 	}
@@ -29,8 +29,7 @@ public class BeoWolfe extends PApplet{
 	}
 	
 	public void draw() {
-		float dt = millis() - lastTime;
-		update(dt);
+		update(millis() - lastTime);
 		
 		background(128);
 		
@@ -38,29 +37,34 @@ public class BeoWolfe extends PApplet{
 		fill(0);
 		rect(0, 0, Config.get().gameWidth(), Config.get().gameHeight());
 		
-		
 		debug.clearData();
 		debug.addString("FPS: " + floor(frameRate));
 		debug.addString("Arrow keys: movement");
 	    debug.addString("D: toggle debug info");
 	    debug.addString("E & R: change resolution");
 	    
-//	    Config.get().direction().x = cos(rot);
-//	    Config.get().direction().y = -sin(rot);
+	    debug.addString("PosX: " + Config.get().position().x);
+	    debug.addString("posY: " + Config.get().position().y);
+	    
+	    debug.addString("dirX: " + Config.get().direction().x);
+	    debug.addString("dirY: " + Config.get().direction().y);
+	    
+	    debug.addString("rightX: " + Config.get().right().x);
+	    debug.addString("rightY: " + Config.get().right().y);
+	    debug.addString("camX : " + camX);
 	    Config.get().setDirection(cos(rot), -sin(rot));
 	    
-//	    Config.get().right().x = sin(rot);
-//	    Config.get().right().y = cos(rot);
 	    Config.get().setRight(sin(rot), cos(rot));
 	    
 	    strokeWeight(Config.get().lineWeight());
 	    	    
 	    for(int x = 0; x < width; x += Config.get().lineWeight()) {
-	    	float camX = 2.0f * x / floor(width) -1;
+	    	camX = 2.0f * x / width -1;
 	    	PVector rayPos = new PVector(Config.get().position().x, Config.get().position().y);
 	    	PVector rayDir = new PVector(
 	    			Config.get().direction().x * Config.get().right().x * camX,
 	    			Config.get().direction().y * Config.get().right().y * camX);
+	    	
 	    	int mapX = (int)rayPos.x;
 	    	int mapY = (int)rayPos.y;
 	    	
@@ -115,9 +119,9 @@ public class BeoWolfe extends PApplet{
 	    	}
 	    	
 	    	if(side == 0)
-	    		wallDist = abs((mapX - rayPos.x + (1f - stepX) / 2f) / rayDir.x);
+	    		wallDist = abs((mapX - rayPos.x + (1.0f - stepX) / 2.0f) / rayDir.x);
 	    	else
-	    		wallDist = abs((mapY - rayPos.y + (1f - stepY) / 2f) / rayDir.y);
+	    		wallDist = abs((mapY - rayPos.y + (1.0f - stepY) / 2.0f) / rayDir.y);
 	    	
 	    	float lineHeight = abs(Config.get().gameHeight() / wallDist);
 	    	lineHeight = min(lineHeight, Config.get().gameHeight());
@@ -127,12 +131,12 @@ public class BeoWolfe extends PApplet{
 				case 0:
 					break;
 				case 1:
-					stroke(255/2,0,0);
+					stroke(255,0,0);
 				case 2:
-					stroke(0,255/2,0);
+					stroke(0,255,0);
 					break;
 				case 3:
-					stroke(0,0,255/2);
+					stroke(0,0,255);
 					break;
 				}
 	    	}
@@ -161,19 +165,19 @@ public class BeoWolfe extends PApplet{
 	public void update(float dt) {
 		if(Keyboard.isKeyDown(KeyboardKey.get().KEY_LEFT))
 			rot += Config.get().turnSpeed();
-		
+			
 		if(Keyboard.isKeyDown(KeyboardKey.get().KEY_RIGHT))
 			rot -= Config.get().turnSpeed();
 		
-		if(Keyboard.isKeyDown(KeyboardKey.get().KEY_UP))
+		if(Keyboard.isKeyDown(KeyboardKey.get().KEY_UP)) 
 			Config.get().position().add(new PVector(
 					Config.get().direction().x * Config.get().walkSpeed() * dt,
 					Config.get().direction().y * Config.get().walkSpeed() * dt));
-		
+			
 		if(Keyboard.isKeyDown(KeyboardKey.get().KEY_DOWN))
 			Config.get().direction().add(new PVector(
-					-Config.get().direction().x * Config.get().walkSpeed() * dt,
-					-Config.get().direction().y * Config.get().walkSpeed() * dt));
+					-1 * Config.get().direction().x * Config.get().walkSpeed() * dt,
+					-1 * Config.get().direction().y * Config.get().walkSpeed() * dt));
 	}
 	
 	public void keyReleased() {
