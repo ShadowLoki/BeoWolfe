@@ -18,7 +18,7 @@ public class BeoWolfe extends PApplet{
 	Debugger debug;
 	float camX;
 	public void settings() {
-		size(Config.get().gameWidth(), Config.get().gameHeight(), P2D);
+		size(Config.get().canvasWidth(), Config.get().canvasHeight(), P2D);
 	}
 	
 	public void setup() {
@@ -35,7 +35,10 @@ public class BeoWolfe extends PApplet{
 		
 		noStroke();
 		fill(0);
-		rect(0, 0, Config.get().gameWidth(), Config.get().gameHeight());
+		
+		rect(	width/2 - Config.get().gameWidth()/2, 	//X position of game background
+				height/2 - Config.get().gameHeight()/2, //Y Position of game background
+				Config.get().gameWidth(), Config.get().gameHeight()); //width/height of game background
 		
 		debug.clearData();
 		debug.addString("FPS: " + floor(frameRate));
@@ -52,18 +55,21 @@ public class BeoWolfe extends PApplet{
 	    debug.addString("rightX: " + Config.get().right().x);
 	    debug.addString("rightY: " + Config.get().right().y);
 	    debug.addString("camX : " + camX);
+	    
 	    Config.get().setDirection(cos(rot), -sin(rot));
 	    
 	    Config.get().setRight(sin(rot), cos(rot));
 	    
 	    strokeWeight(Config.get().lineWeight());
-	    	    
-	    for(int x = 0; x < width; x += Config.get().lineWeight()) {
-	    	camX = 2.0f * x / width -1;
+	    
+	    int startX = width/2 - Config.get().gameWidth()/2;
+	    
+	    for(int x = startX; x < width - startX; x += Config.get().lineWeight()) {
+	    	camX = 2.0f * x / width - 1;
 	    	PVector rayPos = new PVector(Config.get().position().x, Config.get().position().y);
 	    	PVector rayDir = new PVector(
-	    			Config.get().direction().x * Config.get().right().x * camX,
-	    			Config.get().direction().y * Config.get().right().y * camX);
+	    			Config.get().direction().x + Config.get().right().x * camX,
+	    			Config.get().direction().y + Config.get().right().y * camX);
 	    	
 	    	int mapX = (int)rayPos.x;
 	    	int mapY = (int)rayPos.y;
@@ -193,7 +199,14 @@ public class BeoWolfe extends PApplet{
 			Config.get().incrementLineWeight(-2);
 			Config.get().setLineWeight(max(1, Config.get().lineWeight()));
 		}
-		
+		else if(Keyboard.isKeyDown(KeyboardKey.get().KEY_Q)) {
+			Config.get().changeGameHeight(-50);
+			Config.get().changeGameWidth(-50);
+		}
+		else if(Keyboard.isKeyDown(KeyboardKey.get().KEY_W)) {
+			Config.get().changeGameHeight(50);
+			Config.get().changeGameWidth(50);
+		}
 		else if(Keyboard.isKeyDown(KeyboardKey.get().KEY_D))
 			debug.toggle();
 	}

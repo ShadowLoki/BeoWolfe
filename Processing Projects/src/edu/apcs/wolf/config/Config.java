@@ -51,11 +51,11 @@ public class Config {
 	};
 	
 	//Contants
-	private final int GAME_WIDTH 	= 640;
-	private final int GAME_HEIGHT 	= 480;
+	private final int CANVAS_WIDTH 	= 640;
+	private final int CANVAS_HEIGHT = 480;
 	
 	private final float WALK_SPEED = 0.005f;
-	private final float TURN_SPEED = 0.025f;
+	private final float TURN_SPEED = 0.035f;
 	
 	private final float FOV = 0.6f;
 	
@@ -63,6 +63,9 @@ public class Config {
 	private PVector _position;
 	private PVector _direction;
 	private PVector _right;
+	
+	private int _game_height;
+	private int _game_width;
 	
 	private int _line_weight;
 	
@@ -73,6 +76,9 @@ public class Config {
 		_direction 	= new PVector(0, 1);
 		_right 		= new PVector(1, 0);
 		
+		_game_height = CANVAS_HEIGHT;
+		_game_width = CANVAS_WIDTH;
+		
 		_line_weight = 1;
 	}
 	
@@ -80,12 +86,12 @@ public class Config {
 		return WORLD_MAP;
 	}
 	
-	public int gameWidth() {
-		return GAME_WIDTH;
+	public int canvasWidth() {
+		return CANVAS_WIDTH;
 	}
 	
-	public int gameHeight() {
-		return GAME_HEIGHT;
+	public int canvasHeight() {
+		return CANVAS_HEIGHT;
 	}
 	
 	public float walkSpeed() {
@@ -126,6 +132,22 @@ public class Config {
 	
 	public int lineWeight() {
 		return _line_weight;
+	}
+	
+	public int gameHeight() {
+		return _game_height;
+	}
+	
+	public void changeGameHeight(int increment) {
+		_game_height += increment;
+	}
+	
+	public int gameWidth() {
+		return _game_width;
+	}
+	
+	public void changeGameWidth(int increment) {
+		_game_width += increment;
 	}
 	
 	public void incrementLineWeight(int weight) {
