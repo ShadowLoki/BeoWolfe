@@ -1,10 +1,11 @@
 package edu.apcs.wolf;
 
 import edu.apcs.wolf.config.Config;
+import edu.apcs.wolf.config.LiveData;
 import edu.apcs.wolf.debug.Debugger;
 import edu.apcs.wolf.keyboard.Keyboard;
 import edu.apcs.wolf.keyboard.KeyboardKey;
-
+import edu.apcs.wolf.physics.Walls;
 import processing.core.PApplet;
 import processing.core.PVector;
 
@@ -17,6 +18,9 @@ public class BeoWolfe extends PApplet{
 	float rot = 0.0f;
 	Debugger debug;
 	float camX;
+	
+	Walls walls = new Walls();
+	
 	public void settings() {
 		size(Config.get().canvasWidth(), Config.get().canvasHeight(), P2D);
 	}
@@ -66,74 +70,74 @@ public class BeoWolfe extends PApplet{
 	    
 	    for(int x = startX; x < width - startX; x += Config.get().lineWeight()) {
 	    	camX = 2.0f * x / width - 1;
-	    	PVector rayPos = new PVector(Config.get().position().x, Config.get().position().y);
-	    	PVector rayDir = new PVector(
+	    	LiveData.get().rayPos = new PVector(Config.get().position().x, Config.get().position().y);
+	    	 LiveData.get().rayDir = new PVector(
 	    			Config.get().direction().x + Config.get().right().x * camX,
 	    			Config.get().direction().y + Config.get().right().y * camX);
 	    	
-	    	int mapX = (int)rayPos.x;
-	    	int mapY = (int)rayPos.y;
+	    	LiveData.get().mapX = (int)LiveData.get().rayPos.x;
+	    	LiveData.get().mapY = (int)LiveData.get().rayPos.y;
+	    		    	
+	    	LiveData.get().scaleX = 1.0f / LiveData.get().rayDir.x;
+	    	LiveData.get().scaleY = 1.0f / LiveData.get().rayDir.y;
 	    	
-	    	float sideDistX, sideDistY;
+	    	LiveData.get().deltaDistX = (new PVector(1, LiveData.get().rayDir.y * LiveData.get().scaleX)).mag();
+	    	LiveData.get().deltaDistY = (new PVector(1, LiveData.get().rayDir.x * LiveData.get().scaleY)).mag();
 	    	
-	    	float scaleX = 1.0f / rayDir.x;
-	    	float scaleY = 1.0f / rayDir.y;
-	    	
-	    	float deltaDistX = (new PVector(1, rayDir.y * scaleX)).mag();
-	    	float deltaDistY = (new PVector(1, rayDir.x * scaleY)).mag();
-	    	
-	    	float wallDist;
+//	    	LiveData.get().wallDistance;
 	    	
 	    	int stepX, 
 	    		stepY,
 	    		hit = 0,
 	    		side = 0;
 	    	
-	    	if(rayDir.x < 0) {
+	    	if(LiveData.get().rayDir.x < 0) {
 	    		stepX = -1;
-	    		sideDistX = (rayPos.x - mapX) * deltaDistX;
+	    		LiveData.get().sideDistX = (LiveData.get().rayPos.x - LiveData.get().mapX) * LiveData.get().deltaDistX;
 	    	}
 	    	else {
 	    		stepX = 1;
-	    		sideDistX = (mapX + 1.0f - rayPos.x) * deltaDistX;
+	    		LiveData.get().sideDistX = (LiveData.get().mapX + 1.0f - LiveData.get().rayPos.x) * LiveData.get().deltaDistX;
 	    	}
 	    	
-	    	if(rayDir.y < 0) {
+	    	if(LiveData.get().rayDir.y < 0) {
 	    		stepY = -1;
-	    		sideDistY = (rayPos.y - mapY) * deltaDistY;
+	    		LiveData.get().sideDistY = (LiveData.get().rayPos.y - LiveData.get().mapY) * LiveData.get().deltaDistY;
 	    	}
 	    	else {
 	    		stepY = 1;
-	    		sideDistY = (mapY + 1.0f - rayPos.y) * deltaDistY;
+	    		LiveData.get().sideDistY = (LiveData.get().mapY + 1.0f - LiveData.get().rayPos.y) * LiveData.get().deltaDistY;
 	    	}
 	    	
 	    	while (hit == 0) {
-	    		if (sideDistX < sideDistY) {
-	                sideDistX += deltaDistX;
-	                mapX += stepX;
+	    		if (LiveData.get().sideDistX < LiveData.get().sideDistY) {
+	                LiveData.get().sideDistX += LiveData.get().deltaDistX;
+	                LiveData.get().mapX += stepX;
 	                side = 0;
 	            } 
 	    		else {
-	                sideDistY += deltaDistY;
-	                mapY += stepY;
+	                LiveData.get().sideDistY += LiveData.get().deltaDistY;
+	                LiveData.get().mapY += stepY;
 	                side = 1;
 	            }
 	    		
-	            if (Config.get().worldMap()[mapX][mapY] > 0) {
+	            if (Config.get().worldMap()[LiveData.get().mapX][LiveData.get().mapY] > 0) {
 	                hit = 1;
 	            }
 	    	}
 	    	
 	    	if(side == 0)
-	    		wallDist = abs((mapX - rayPos.x + (1.0f - stepX) / 2.0f) / rayDir.x);
+	    		LiveData.get().wallDistance = abs((LiveData.get().mapX - LiveData.get().rayPos.x + (1.0f - stepX) / 2.0f) / LiveData.get().rayDir.x);
 	    	else
-	    		wallDist = abs((mapY - rayPos.y + (1.0f - stepY) / 2.0f) / rayDir.y);
+	    		LiveData.get().wallDistance = abs((LiveData.get().mapY - LiveData.get().rayPos.y + (1.0f - stepY) / 2.0f) / LiveData.get().rayDir.y);
 	    	
-	    	float lineHeight = abs(Config.get().gameHeight() / wallDist);
+	    	walls.detectWalls(LiveData.get().wallDistance);
+	    	
+	    	float lineHeight = abs(Config.get().gameHeight() / LiveData.get().wallDistance);
 	    	lineHeight = min(lineHeight, Config.get().gameHeight());
 	    	
-	    	if(mapX >= 0 && mapY >= 0) {
-	    		switch (Config.get().worldMap()[mapX][mapY]) {
+	    	if(LiveData.get().mapX >= 0 && LiveData.get().mapY >= 0) {
+	    		switch (Config.get().worldMap()[LiveData.get().mapX][LiveData.get().mapY]) {
 				case 0:
 					break;
 				case 1:
@@ -148,7 +152,7 @@ public class BeoWolfe extends PApplet{
 	    	}
 	    	
 	    	if(side == 1) {
-	    		switch (Config.get().worldMap()[mapX][mapY]) {
+	    		switch (Config.get().worldMap()[LiveData.get().mapX][LiveData.get().mapY]) {
 				case 1:
 					stroke(255/2, 0 ,0);
 					break;
@@ -162,6 +166,8 @@ public class BeoWolfe extends PApplet{
 	    	
 	    	float startY = height / 2 - lineHeight /2;
 	    	line(x, startY, x, startY + lineHeight);
+	    	
+	    	
 	    }
 	    
 	    debug.draw();
@@ -182,8 +188,8 @@ public class BeoWolfe extends PApplet{
 			
 		if(Keyboard.isKeyDown(KeyboardKey.get().KEY_DOWN))
 			Config.get().direction().add(new PVector(
-					-1 * Config.get().direction().x * Config.get().walkSpeed() * dt,
-					-1 * Config.get().direction().y * Config.get().walkSpeed() * dt));
+					-Config.get().direction().x * Config.get().walkSpeed() * dt,
+					-Config.get().direction().y * Config.get().walkSpeed() * dt));
 	}
 	
 	public void keyReleased() {

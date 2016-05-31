@@ -51,11 +51,11 @@ public class Config {
 	};
 	
 	//Contants
-	private final int CANVAS_WIDTH 	= 640;
-	private final int CANVAS_HEIGHT = 480;
+	private final int CANVAS_WIDTH 	= 800;
+	private final int CANVAS_HEIGHT = 600;
 	
 	private final float WALK_SPEED = 0.005f;
-	private final float TURN_SPEED = 0.035f;
+	private final float TURN_SPEED = 0.025f;
 	
 	private final float FOV = 0.6f;
 	
