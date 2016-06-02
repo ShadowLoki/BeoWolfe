@@ -49,17 +49,7 @@ public class BeoWolfe extends PApplet{
 		debug.addString("Arrow keys: movement");
 	    debug.addString("D: toggle debug info");
 	    debug.addString("E & R: change resolution");
-	    
-	    debug.addString("PosX: " + Config.get().position().x);
-	    debug.addString("posY: " + Config.get().position().y);
-	    
-	    debug.addString("dirX: " + Config.get().direction().x);
-	    debug.addString("dirY: " + Config.get().direction().y);
-	    
-	    debug.addString("rightX: " + Config.get().right().x);
-	    debug.addString("rightY: " + Config.get().right().y);
-	    debug.addString("camX : " + camX);
-	    
+	    	    
 	    Config.get().setDirection(cos(rot), -sin(rot));
 	    
 	    Config.get().setRight(sin(rot), cos(rot));
@@ -131,7 +121,7 @@ public class BeoWolfe extends PApplet{
 	    	else
 	    		LiveData.get().wallDistance = abs((LiveData.get().mapY - LiveData.get().rayPos.y + (1.0f - stepY) / 2.0f) / LiveData.get().rayDir.y);
 	    	
-	    	walls.detectWalls(LiveData.get().wallDistance);
+//	    	walls.detectWalls(LiveData.get().wallDistance - 5);
 	    	
 	    	float lineHeight = abs(Config.get().gameHeight() / LiveData.get().wallDistance);
 	    	lineHeight = min(lineHeight, Config.get().gameHeight());
@@ -169,7 +159,8 @@ public class BeoWolfe extends PApplet{
 	    	
 	    	
 	    }
-	    
+	    debug.addString("Wall Distance: " + LiveData.get().wallDistance);
+	    debug.addString("Down Key: " + Keyboard.isKeyDown(KeyboardKey.get().KEY_DOWN));
 	    debug.draw();
 	    lastTime = millis();
 	}
@@ -187,9 +178,10 @@ public class BeoWolfe extends PApplet{
 					Config.get().direction().y * Config.get().walkSpeed() * dt));
 			
 		if(Keyboard.isKeyDown(KeyboardKey.get().KEY_DOWN))
-			Config.get().direction().add(new PVector(
+			Config.get().position().add(new PVector(
 					-Config.get().direction().x * Config.get().walkSpeed() * dt,
 					-Config.get().direction().y * Config.get().walkSpeed() * dt));
+		
 	}
 	
 	public void keyReleased() {
