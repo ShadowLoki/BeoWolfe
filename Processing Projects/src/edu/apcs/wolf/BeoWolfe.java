@@ -9,6 +9,13 @@ import edu.apcs.wolf.physics.Walls;
 import processing.core.PApplet;
 import processing.core.PVector;
 
+/**
+ * Raycaster made using Java and PApplet(Processing)
+ * @author Manpreet Singh 2016
+ * @see <a href="http://www.openprocessing.org/user/36804">Andor Salga</a>
+ * @see <a href="http://lodev.org/cgtutor/raycasting.html">Lode's Computer Graphics Tutorial</a>
+ *
+ */
 public class BeoWolfe extends PApplet{
 	public static void main(String[] args) {
 		PApplet.main(new String[] {"--present", "edu.apcs.wolf.BeoWolfe"});
@@ -48,6 +55,7 @@ public class BeoWolfe extends PApplet{
 		debug.addString("FPS: " + floor(frameRate));
 		debug.addString("Arrow keys: movement");
 	    debug.addString("D: toggle debug info");
+	    debug.addString("Q & W: change dimensions");
 	    debug.addString("E & R: change resolution");
 	    	    
 	    Config.get().setDirection(cos(rot), -sin(rot));
@@ -121,7 +129,7 @@ public class BeoWolfe extends PApplet{
 	    	else
 	    		LiveData.get().wallDistance = abs((LiveData.get().mapY - LiveData.get().rayPos.y + (1.0f - stepY) / 2.0f) / LiveData.get().rayDir.y);
 	    	
-//	    	walls.detectWalls(LiveData.get().wallDistance - 5);
+//	    	walls.detectWalls(LiveData.get().wallDistance);
 	    	
 	    	float lineHeight = abs(Config.get().gameHeight() / LiveData.get().wallDistance);
 	    	lineHeight = min(lineHeight, Config.get().gameHeight());
@@ -172,16 +180,28 @@ public class BeoWolfe extends PApplet{
 		if(Keyboard.isKeyDown(KeyboardKey.get().KEY_RIGHT))
 			rot -= Config.get().turnSpeed();
 		
-		if(Keyboard.isKeyDown(KeyboardKey.get().KEY_UP)) 
-			Config.get().position().add(new PVector(
-					Config.get().direction().x * Config.get().walkSpeed() * dt,
-					Config.get().direction().y * Config.get().walkSpeed() * dt));
+		if(Keyboard.isKeyDown(KeyboardKey.get().KEY_UP)) {
+			if((int)(Config.get().worldMap()[(int)(Config.get().position().x + Config.get().direction().x * Config.get().walkSpeed())][(int)(Config.get().position().y)]) == 0)
+				Config.get().position().add(new PVector(
+						Config.get().direction().x * Config.get().walkSpeed() * dt,
+						Config.get().direction().y * Config.get().walkSpeed() * dt));
 			
-		if(Keyboard.isKeyDown(KeyboardKey.get().KEY_DOWN))
-			Config.get().position().add(new PVector(
-					-Config.get().direction().x * Config.get().walkSpeed() * dt,
-					-Config.get().direction().y * Config.get().walkSpeed() * dt));
+			if((Config.get().worldMap()[(int)(Config.get().position().x)][(int)(Config.get().position().y + Config.get().direction().y * Config.get().walkSpeed())]) == 0)
+				Config.get().position().add(new PVector(
+						Config.get().direction().x * Config.get().walkSpeed() * dt,
+						Config.get().direction().y * Config.get().walkSpeed() * dt));
+		}
 		
+		if(Keyboard.isKeyDown(KeyboardKey.get().KEY_DOWN)){
+			if((Config.get().worldMap()[(int)(Config.get().position().x - Config.get().direction().x * Config.get().walkSpeed())][(int)(Config.get().position().y)]) == 0)
+				Config.get().position().add(new PVector(
+						-Config.get().direction().x * Config.get().walkSpeed() * dt,
+						-Config.get().direction().y * Config.get().walkSpeed() * dt));
+			if((Config.get().worldMap()[(int)(Config.get().position().x)][(int)(Config.get().position().y - Config.get().direction().y * Config.get().walkSpeed())]) == 0)
+				Config.get().position().add(new PVector(
+						-Config.get().direction().x * Config.get().walkSpeed() * dt,
+						-Config.get().direction().y * Config.get().walkSpeed() * dt));
+		}
 	}
 	
 	public void keyReleased() {
@@ -193,18 +213,22 @@ public class BeoWolfe extends PApplet{
 		
 		if(Keyboard.isKeyDown(KeyboardKey.get().KEY_R))
 			Config.get().incrementLineWeight(2);
+		
 		else if(Keyboard.isKeyDown(KeyboardKey.get().KEY_E)) {
 			Config.get().incrementLineWeight(-2);
 			Config.get().setLineWeight(max(1, Config.get().lineWeight()));
 		}
+		
 		else if(Keyboard.isKeyDown(KeyboardKey.get().KEY_Q)) {
 			Config.get().changeGameHeight(-50);
 			Config.get().changeGameWidth(-50);
 		}
+		
 		else if(Keyboard.isKeyDown(KeyboardKey.get().KEY_W)) {
 			Config.get().changeGameHeight(50);
 			Config.get().changeGameWidth(50);
 		}
+		
 		else if(Keyboard.isKeyDown(KeyboardKey.get().KEY_D))
 			debug.toggle();
 	}
