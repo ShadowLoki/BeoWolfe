@@ -1,4 +1,8 @@
-# Pong
-Pong game made using the processing libraries 
+#BeoWolfe
+Fake 3D environment created using 2D and a technique called Raycasting.
 
-Turns out I don't have to use the horrible processing IDE, and I can use eclipse with java, so I am. :smiley:
+Created with tremendous help from:
+[Andor Salga](http://www.openprocessing.org/user/36804)
+[Lode's Computer Graphics Tutorial](http://lodev.org/cgtutor/raycasting.html)
+
+A good chunk of the code was borrowed from these sources, and then split and structured.
