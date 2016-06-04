@@ -1,5 +1,7 @@
 package edu.apcs.wolf.config;
 
+import java.awt.Toolkit;
+
 import processing.core.PVector;
 
 public class Config {
@@ -34,7 +36,7 @@ public class Config {
 		    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 		    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,3,3,0,0,0,0,0,0,1},
 		    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,1},
-		    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,2,0,3,0,0,0,0,0,0,1},
+		    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,3,0,0,0,0,0,0,1},
 		    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,3,0,0,0,0,0,0,1},
 		    {1,0,0,0,2,3,0,0,0,0,0,0,0,0,0,0,3,3,0,0,0,0,0,0,0,1},
 		    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -51,8 +53,8 @@ public class Config {
 	};
 	
 	//Contants
-	private final int CANVAS_WIDTH 	= 1600;
-	private final int CANVAS_HEIGHT = 900;
+	private final int CANVAS_WIDTH 	= (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	private final int CANVAS_HEIGHT = (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 50;
 	
 	private final float WALK_SPEED = 0.003f;
 	private final float TURN_SPEED = 0.02f;

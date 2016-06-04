@@ -18,7 +18,8 @@ import processing.core.PVector;
  */
 public class BeoWolfe extends PApplet{
 	public static void main(String[] args) {
-		PApplet.main(new String[] {"--present", "edu.apcs.wolf.BeoWolfe"});
+		System.out.println();
+		PApplet.main("edu.apcs.wolf.BeoWolfe");
 	}
 	
 	float lastTime;
@@ -169,6 +170,12 @@ public class BeoWolfe extends PApplet{
 	    }
 	    debug.addString("Wall Distance: " + LiveData.get().wallDistance);
 	    debug.addString("Down Key: " + Keyboard.isKeyDown(KeyboardKey.get().KEY_DOWN));
+	    
+	    debug.addString("South Wall: " + walls.southWall());
+	    debug.addString("North Wall: " + walls.northWall());
+	    debug.addString("Right Wall: " + walls.rightWall());
+	    debug.addString("Left Wall: " + walls.leftWall());
+	    
 	    debug.draw();
 	    lastTime = millis();
 	}
@@ -180,28 +187,15 @@ public class BeoWolfe extends PApplet{
 		if(Keyboard.isKeyDown(KeyboardKey.get().KEY_RIGHT))
 			rot -= Config.get().turnSpeed();
 		
-		if(Keyboard.isKeyDown(KeyboardKey.get().KEY_UP)) {
-			if((int)(Config.get().worldMap()[(int)(Config.get().position().x + Config.get().direction().x * Config.get().walkSpeed())][(int)(Config.get().position().y)]) == 0)
-				Config.get().position().add(new PVector(
-						Config.get().direction().x * Config.get().walkSpeed() * dt,
-						Config.get().direction().y * Config.get().walkSpeed() * dt));
-			
-			if((Config.get().worldMap()[(int)(Config.get().position().x)][(int)(Config.get().position().y + Config.get().direction().y * Config.get().walkSpeed())]) == 0)
-				Config.get().position().add(new PVector(
-						Config.get().direction().x * Config.get().walkSpeed() * dt,
-						Config.get().direction().y * Config.get().walkSpeed() * dt));
-		}
+		if(Keyboard.isKeyDown(KeyboardKey.get().KEY_UP)) 
+			Config.get().position().add(new PVector(
+					Config.get().direction().x * Config.get().walkSpeed() * dt,
+					Config.get().direction().y * Config.get().walkSpeed() * dt));
 		
-		if(Keyboard.isKeyDown(KeyboardKey.get().KEY_DOWN)){
-			if((Config.get().worldMap()[(int)(Config.get().position().x - Config.get().direction().x * Config.get().walkSpeed())][(int)(Config.get().position().y)]) == 0)
-				Config.get().position().add(new PVector(
-						-Config.get().direction().x * Config.get().walkSpeed() * dt,
-						-Config.get().direction().y * Config.get().walkSpeed() * dt));
-			if((Config.get().worldMap()[(int)(Config.get().position().x)][(int)(Config.get().position().y - Config.get().direction().y * Config.get().walkSpeed())]) == 0)
-				Config.get().position().add(new PVector(
-						-Config.get().direction().x * Config.get().walkSpeed() * dt,
-						-Config.get().direction().y * Config.get().walkSpeed() * dt));
-		}
+		if(Keyboard.isKeyDown(KeyboardKey.get().KEY_DOWN))
+			Config.get().position().add(new PVector(
+					-Config.get().direction().x * Config.get().walkSpeed() * dt,
+					-Config.get().direction().y * Config.get().walkSpeed() * dt));
 	}
 	
 	public void keyReleased() {
