@@ -1,5 +1,6 @@
 package edu.apcs.wolf.config;
 
+import edu.apcs.wolf.config.Config.State;
 import processing.core.PVector;
 
 /**
@@ -33,4 +34,5 @@ public class LiveData {
 	
 	public int mapX, mapY;
 	
+	public State gameState;
 }

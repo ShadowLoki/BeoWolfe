@@ -13,6 +13,20 @@ public class Config {
 		return instance;
 	}
 	
+	public enum State {
+		RUN(true), PAUSE(false), EXIT(false);
+		
+		private boolean _state;
+		
+		private State(boolean state) {
+			this._state = state;
+		}
+		
+		public boolean get() {
+			return this._state;
+		}
+	}
+	
 	private final int[][] WORLD_MAP = {
 			{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 		    {1,2,0,2,0,0,0,0,3,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -53,8 +67,8 @@ public class Config {
 	};
 	
 	//Contants
-	private final int CANVAS_WIDTH 	= (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-	private final int CANVAS_HEIGHT = (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 50;
+	private final int CANVAS_WIDTH 	= (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth() - 40;
+	private final int CANVAS_HEIGHT = (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 70;
 	
 	private final float WALK_SPEED = 0.003f;
 	private final float TURN_SPEED = 0.02f;
@@ -159,7 +173,12 @@ public class Config {
 	public void setLineWeight(int weight) {
 		_line_weight = weight;
 	}
-
 	
+	public void togglePause(State s) {
+		if(s == State.PAUSE)
+			s = State.RUN;
+		else
+			s = State.PAUSE;
+	}
 
 }
