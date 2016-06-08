@@ -13,20 +13,6 @@ public class Config {
 		return instance;
 	}
 	
-	public enum State {
-		RUN(true), PAUSE(false), EXIT(false);
-		
-		private boolean _state;
-		
-		private State(boolean state) {
-			this._state = state;
-		}
-		
-		public boolean get() {
-			return this._state;
-		}
-	}
-	
 	private final int[][] WORLD_MAP = {
 			{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 		    {1,2,0,2,0,0,0,0,3,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -173,12 +159,4 @@ public class Config {
 	public void setLineWeight(int weight) {
 		_line_weight = weight;
 	}
-	
-	public void togglePause(State s) {
-		if(s == State.PAUSE)
-			s = State.RUN;
-		else
-			s = State.PAUSE;
-	}
-
 }

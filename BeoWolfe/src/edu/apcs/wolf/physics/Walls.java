@@ -4,7 +4,7 @@ import edu.apcs.wolf.config.Config;
 
 public class Walls {
 	
-	private static float _tolerance = 0.3f;
+	private static float _tolerance = 0.25f;
 	
 	public boolean southWall() {
 		return (Config.get().worldMap()[(int)(Config.get().position().x - (Config.get().direction().x * Config.get().walkSpeed()+_tolerance))][(int)Config.get().position().y] == 0);
