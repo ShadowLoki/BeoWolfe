@@ -167,10 +167,7 @@ public class BeoWolfe extends PApplet{
 	    	line(x, startY, x, startY + lineHeight);
 	    	
 	    	
-	    }
-	    debug.addString("Wall Distance: " + LiveData.get().wallDistance);
-	    debug.addString("Down Key: " + Keyboard.isKeyDown(KeyboardKey.get().KEY_DOWN));
-	    
+	    }	    
 	    debug.addString("Note: Avoid red walls, and corners");
 	    
 	    debug.draw();
